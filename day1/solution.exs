@@ -27,9 +27,17 @@ contents =
   |> Enum.unzip()
 
 lists = [Enum.sort(list1), Enum.sort(list2)]
+freqlist = Enum.frequencies(list2)
 
 distance =
   lists
   |> List.zip()
   |> Enum.reduce(0, fn {a, b}, acc -> acc + abs(a - b) end)
-  |> IO.inspect()
+
+similarity =
+  list1
+  |> Enum.reduce(0, fn elem, acc ->
+    acc + elem * Map.get(freqlist, elem, 0)
+  end)
+
+IO.puts("Distance: #{distance}\nSimilarity: #{similarity}")
